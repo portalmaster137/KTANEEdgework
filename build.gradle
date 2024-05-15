@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+group = 'com.porta137'
+//set version to gradle.properties version
+version = project.version
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'com.porta137'
+            artifactId = 'ktaneedgework'
+            version = project.version
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name "porta137repo"
+            url "http://porta137.com/releases"
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
+            allowInsecureProtocol = true
+        }
+    }
+}
